@@ -4,7 +4,7 @@ from kmk.kmk_keyboard import KMKKeyboard as _KMKKeyboard
 from kmk.scanners import DiodeOrientation
 
 
-class KMKKeyboard(_KMKKeyboard):
+class mlego(_KMKKeyboard):
     col_pins = (
         board.GP1,
         board.GP6,
@@ -23,4 +23,7 @@ class KMKKeyboard(_KMKKeyboard):
     diode_orientation = DiodeOrientation.COL2ROW
     lower_pin = board.GP25
     raise_pin = board.GP14
+    en_a = board.GP4
+    en_b = board.GP5
+
 

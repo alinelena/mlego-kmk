@@ -1,13 +1,14 @@
-from kb import KMKKeyboard
+from kb import mlego
 from kmk.extensions.LED import LED
 from kmk.modules.layers import Layers
 from kmk.keys import KC
 from kmk.modules.tapdance import TapDance
+from kmk.extensions.media_keys import MediaKeys
+from kmk.modules.encoder import EncoderHandler
+
 
 XXX = KC.NO
-
-LWR = KC.TT(1)
-RSE = KC.TT(2)
+___ = KC.TRNS
 
 a = KC.A
 b = KC.B
@@ -36,35 +37,48 @@ x = KC.X
 y = KC.Y
 z = KC.Z
 
-mlego_m20 = KMKKeyboard()
-mlego_m20.debug_enabled = True
+m20 = mlego()
+m20.debug_enabled = True
 
 td = TapDance()
 td.tap_time = 200
+m20.modules.append(td)
 
-mlego_m20.modules.append(td)
 
-RSE= KC.TD(KC.MO(2), KC.TO(2))
-LWR= KC.TD(KC.MO(1), KC.TO(1))
+RSE = KC.TD(KC.MO(2), KC.TO(2))
+LWR = KC.TD(KC.MO(1), KC.TO(1))
 
 # enable layers
-mlego_m20.modules.append(Layers())
+layers=Layers()
+m20.modules.append(layers)
+
+media_keys = MediaKeys()
 
 #enable leds for layer indicators
 #leds = LED(led_pin=[mlego_m20.lower_pin,mlego_m20.raise_pin], val=0)
 #mlego_m20.extensions.append(leds)
+m20.extensions.append(media_keys)
+
+# Rotary encoder, no push
+encoder = EncoderHandler()
+
+m20.modules.append(encoder)
+
+encoder.divisor = 4
+encoder.pins = ((m20.en_a, m20.en_b, None),)
+encoder.map = (((KC.VOLD, KC.VOLU,___),),)
+
 
 ___ = KC.TRNS
 
 # human codes
-
-mlego_m20.keymap = [
+m20.keymap = [
 # "qwerty" layer
         [
             a  , b, d, e  ,
             f  , g, i, j  ,
             k  , l, n, o  ,
-            p  , q, s, t  ,
+            KC.VOLD  , q, s, KC.VOLU  ,
             LWR, u, x, RSE,
   ]            ,
 # lower layer
@@ -73,7 +87,7 @@ mlego_m20.keymap = [
             f  , g, h, j  ,
             k  , l, m, o  ,
             p  , q, r, t  ,
-            ___, x, y, ___,
+            LWR, x, y, ___,
   ]            ,
 # raise layer
   [
@@ -81,7 +95,7 @@ mlego_m20.keymap = [
             f  , h, i, j  ,
             k  , m, n, o  ,
             p  , r, s, t  ,
-            ___, y, z, ___,
+            LWR, y, z, ___,
   ]            ,
 # adjust layer
   [
@@ -89,9 +103,10 @@ mlego_m20.keymap = [
             f  , g, h, j  ,
             k  , l, m, o  ,
             p  , q, r, t  ,
-            ___, x, y, ___,
+            LWR, x, y, ___,
   ]
 ]
 
+
 if __name__ == '__main__':
-    mlego_m20.go()
+    m20.go()
