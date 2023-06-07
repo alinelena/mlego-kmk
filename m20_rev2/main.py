@@ -2,6 +2,7 @@ from kb import KMKKeyboard
 from kmk.extensions.LED import LED
 from kmk.modules.layers import Layers
 from kmk.keys import KC
+from kmk.modules.tapdance import TapDance
 
 XXX = KC.NO
 
@@ -36,10 +37,15 @@ y = KC.Y
 z = KC.Z
 
 mlego_m20 = KMKKeyboard()
-
-mlego_m20.tap_time=200
 mlego_m20.debug_enabled = True
 
+td = TapDance()
+td.tap_time = 200
+
+mlego_m20.modules.append(td)
+
+RSE= KC.TD(KC.MO(2), KC.TO(2))
+LWR= KC.TD(KC.MO(1), KC.TO(1))
 
 # enable layers
 mlego_m20.modules.append(Layers())
