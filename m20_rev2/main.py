@@ -5,6 +5,8 @@ from kmk.keys import KC
 from kmk.modules.tapdance import TapDance
 from kmk.extensions.media_keys import MediaKeys
 from kmk.modules.encoder import EncoderHandler
+from kmk.extensions.oled import Oled
+from kmk.modules.combos import Combos, Sequence
 
 
 XXX = KC.NO
@@ -40,24 +42,26 @@ z = KC.Z
 m20 = mlego()
 m20.debug_enabled = True
 
+# enable tapdande
 td = TapDance()
-td.tap_time = 200
 m20.modules.append(td)
-
-
-RSE = KC.TD(KC.MO(2), KC.TO(2))
-LWR = KC.TD(KC.MO(1), KC.TO(1))
+td.tap_time = 250
 
 # enable layers
-layers=Layers()
+layers = Layers()
 m20.modules.append(layers)
 
-media_keys = MediaKeys()
+RSE = KC.TD(KC.MO(2), KC.TT(2))
+LWR = KC.TD(KC.MO(1), KC.TT(1))
+ADJ = KC.MO(3)
 
-#enable leds for layer indicators
-#leds = LED(led_pin=[mlego_m20.lower_pin,mlego_m20.raise_pin], val=0)
-#mlego_m20.extensions.append(leds)
+# enable mediakeys
+media_keys = MediaKeys()
 m20.extensions.append(media_keys)
+
+# enable leds for layer indicators
+leds = LED(led_pin=[m20.lower_pin, m20.raise_pin], val=0)
+m20.extensions.append(leds)
 
 # Rotary encoder, no push
 encoder = EncoderHandler()
@@ -66,47 +70,55 @@ m20.modules.append(encoder)
 
 encoder.divisor = 4
 encoder.pins = ((m20.en_a, m20.en_b, None),)
-encoder.map = (((KC.VOLD, KC.VOLU,___),),)
+encoder.map = (((KC.VOLD, KC.VOLU, ___),),)
 
+oled = Oled(sda=m20.sda, scl=m20.scl)
+m20.extensions.append(oled)
+oled.enable
 
-___ = KC.TRNS
+combos = Combos()
+m20.modules.append(combos)
+combos.combos = [
+  Sequence((LWR, RSE), ADJ),                                                                                  
+]
 
+# fmt: off
 # human codes
 m20.keymap = [
-# "qwerty" layer
-        [
+# "qwerty" 
+   [
             a  , b, d, e  ,
             f  , g, i, j  ,
             k  , l, n, o  ,
-            KC.VOLD  , q, s, KC.VOLU  ,
-            LWR, u, x, RSE,
-  ]            ,
+            p, q,s, t,
+            LWR, u, v, RSE,
+  ],
 # lower layer
   [
             a  , b, c, e  ,
             f  , g, h, j  ,
             k  , l, m, o  ,
             p  , q, r, t  ,
-            LWR, x, y, ___,
-  ]            ,
+            LWR, x, z, RSE,
+  ],
 # raise layer
   [
             a  , c, d, e  ,
             f  , h, i, j  ,
             k  , m, n, o  ,
             p  , r, s, t  ,
-            LWR, y, z, ___,
-  ]            ,
+            LWR, y, y, RSE,
+  ],
 # adjust layer
   [
             a  , b, c, e  ,
             f  , g, h, j  ,
             k  , l, m, o  ,
             p  , q, r, t  ,
-            LWR, x, y, ___,
+            LWR, z, x, RSE,
   ]
 ]
-
+# fmt: on
 
 if __name__ == '__main__':
-    m20.go()
+  m20.go()

@@ -26,4 +26,5 @@ class mlego(_KMKKeyboard):
     en_a = board.GP4
     en_b = board.GP5
 
-
+    scl = board.GP3
+    sda = board.GP2
