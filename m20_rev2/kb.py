@@ -21,8 +21,10 @@ class mlego(_KMKKeyboard):
     )
 
     diode_orientation = DiodeOrientation.COL2ROW
-    lower_pin = board.GP25
-    raise_pin = board.GP14
+
+    lower_led = board.GP25
+    raise_led = board.GP14
+
     en_a = board.GP4
     en_b = board.GP5
 

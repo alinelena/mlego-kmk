@@ -60,7 +60,7 @@ media_keys = MediaKeys()
 m20.extensions.append(media_keys)
 
 # enable leds for layer indicators
-leds = LED(led_pin=[m20.lower_pin, m20.raise_pin], val=0)
+leds = LED(led_pin=[m20.lower_led, m20.raise_led], val=0)
 m20.extensions.append(leds)
 
 # Rotary encoder, no push
@@ -79,13 +79,13 @@ oled.enable
 combos = Combos()
 m20.modules.append(combos)
 combos.combos = [
-  Sequence((LWR, RSE), ADJ),                                                                                  
+  Sequence((LWR, RSE), ADJ),
 ]
 
 # fmt: off
 # human codes
 m20.keymap = [
-# "qwerty" 
+# "qwerty"
    [
             a  , b, d, e  ,
             f  , g, i, j  ,
@@ -99,7 +99,7 @@ m20.keymap = [
             f  , g, h, j  ,
             k  , l, m, o  ,
             p  , q, r, t  ,
-            LWR, x, z, RSE,
+            ___, x, z, ___,
   ],
 # raise layer
   [
@@ -107,15 +107,15 @@ m20.keymap = [
             f  , h, i, j  ,
             k  , m, n, o  ,
             p  , r, s, t  ,
-            LWR, y, y, RSE,
+            ___, y, y, ___,
   ],
 # adjust layer
   [
-            a  , b, c, e  ,
+            KC.RESET, b, c, KC.RELOAD,
             f  , g, h, j  ,
             k  , l, m, o  ,
-            p  , q, r, t  ,
-            LWR, z, x, RSE,
+            p  , q, r, KC.DEBUG	  ,
+            ___, z, x, ___,
   ]
 ]
 # fmt: on
