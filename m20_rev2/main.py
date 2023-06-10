@@ -65,7 +65,6 @@ m20.extensions.append(leds)
 
 # Rotary encoder, no push
 encoder = EncoderHandler()
-
 m20.modules.append(encoder)
 
 encoder.divisor = 4
@@ -114,7 +113,7 @@ m20.keymap = [
             KC.RESET, b, c, KC.RELOAD,
             f  , g, h, j  ,
             k  , l, m, o  ,
-            p  , q, r, KC.DEBUG	  ,
+            p  , q, r, KC.DEBUG   ,
             ___, z, x, ___,
   ]
 ]
